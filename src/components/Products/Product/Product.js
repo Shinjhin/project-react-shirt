@@ -6,22 +6,23 @@ import ProductForm from './ProductForm/ProductForm';
 
 const Product = props => {
 
-const [currentColor, setCurrentColor] = useState(props.colors[0])
+const data = props.data;
+const [currentColor, setCurrentColor] = useState(data.colors[0])
 // console.log('colors:',currentColor)
-const [currentSize, setCurrentSize] = useState(props.sizes[0].name)
+const [currentSize, setCurrentSize] = useState(data.sizes[0].name)
 // console.log('setSize',currentSize);
 const prepareColorClassName = color => {
   return styles['color' + color[0].toUpperCase() + color.substr(1).toLowerCase()] 
 };
 
 const getPrice = useMemo(() =>{
-  const suma = props.sizes.find( ({ name }) => name === currentSize)
-  return props.basePrice + suma.additionalPrice
-}, [props.sizes, props.basePrice, currentSize]);
+  const suma = data.sizes.find( ({ name }) => name === currentSize)
+  return data.basePrice + suma.additionalPrice
+}, [data.sizes, data.basePrice, currentSize]);
 
 const hundleSubmit = (e) => {
   e.preventDefault()
-  console.log('Name:', props.title);
+  console.log('Name:', data.title);
   console.log('Price:', getPrice);
   console.log('Size:', currentSize);
   console.log('Color:', currentColor);
@@ -29,21 +30,14 @@ const hundleSubmit = (e) => {
 
   return (
     <article className={styles.product}>
-      {/*<div className={styles.imageContainer}>
-        <img 
-          className={styles.image}
-          alt="Kodilla shirt"
-          src={`${process.env.PUBLIC_URL}/images/products/shirt-kodilla--black.jpg`} />
-        </div>*/}
-      <ProductImage title={props.title} name={props.name} currentColor={currentColor}/>  
+      <ProductImage title={data.title} name={data.name} currentColor={currentColor}/>  
       <div>
         <header>
-          <h2 className={styles.name}>{props.title}</h2>
+          <h2 className={styles.name}>{data.title}</h2>
           <span className={styles.price}>Price: {getPrice}$</span>
         </header>
         <ProductForm 
-          sizes={props.sizes}
-          colors={props.colors}
+          data={data}
           hundleSubmit={hundleSubmit}
           currentSize={currentSize}
           setCurrentSize={setCurrentSize}
@@ -58,10 +52,7 @@ const hundleSubmit = (e) => {
 };
 
 Product.propTypes = {
-  id:PropTypes.number.isRequired,
-  title:PropTypes.string.isRequired,
-  basePrice:PropTypes.number.isRequired,
-  name:PropTypes.string.isRequired,
+  data:PropTypes.object
 };
 
 export default Product;

@@ -7,6 +7,16 @@ const Products = () => {
 
   return (
     <section>
+      {products.map(products => <Product key={products.id} id={products.id} basePrice={products.basePrice}  title={products.title} colors={products.colors} sizes={products.sizes} name={products.name}/>)}
+    </section>
+   )
+};
+
+export default Products;
+
+/*
+return (
+    <section>
       <Product
         id={products[0].id}
         name={products[0].name}
@@ -23,6 +33,4 @@ const Products = () => {
         basePrice={products[1].basePrice} />
     </section>
   );
-};
-
-export default Products;
+  */
